@@ -20,9 +20,26 @@ function eventListeners() {
 function deleteTodo(e) {
     if (e.target.className === "fa fa-remove") {
         e.target.parentNode.parentNode.remove();
+
+        deleteTodoFromStorage(e.target.parentNode.parentNode.textContent);
         showAlert("success","Todo Deleted Successfully");
     }
 }
+
+function deleteTodoFromStorage(deleteTodo) {
+    let todos = getTodosFromStorage();
+
+
+    
+    todos.forEach(function (todo,index) {
+        if (todo === deleteTodo) {
+            todos.splice(index,1);
+        }
+    });
+
+    localStorage.setItem("todos",JSON.stringify(todos));
+}
+
 
 function loadAllTodosToUI() {
     const todos = getTodosFromStorage();
