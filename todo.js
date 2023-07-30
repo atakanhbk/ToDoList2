@@ -5,7 +5,7 @@ const todoInput = document.querySelector("#todo");
 const todoList = document.querySelector(".list-group");
 const firstCardBody = document.querySelectorAll(".card-body")[0];
 const secondCardBody = document.querySelectorAll(".card-body")[1];
-const filter = document.querySelectorAll("#filter");
+const filter = document.querySelector("#filter");
 const clearButton = document.querySelectorAll("#clear-todos");
 
 eventListeners();
@@ -13,8 +13,27 @@ eventListeners();
 
 function eventListeners() {
     form.addEventListener("submit", addTodo);
-    document.addEventListener("DOMContentLoaded",loadAllTodosToUI);
-    secondCardBody.addEventListener("click",deleteTodo);
+    document.addEventListener("DOMContentLoaded", loadAllTodosToUI);
+    secondCardBody.addEventListener("click", deleteTodo);
+    filter.addEventListener("keyup", filterTodos);
+}
+
+function filterTodos(e) {
+    const filterValue = e.target.value.toLowerCase();
+    const listItems = document.querySelectorAll(".list-group-item");
+  
+    listItems.forEach(function (listItem) {
+        const text = listItem.textContent.toLowerCase();
+        if (text.indexOf(filterValue) === -1) {
+            console.log("Include");
+            listItem.setAttribute("style","display : none !important");
+        }
+        else{
+            listItem.setAttribute("style","display :block !important");
+        }
+    })
+
+
 }
 
 function deleteTodo(e) {
@@ -22,7 +41,7 @@ function deleteTodo(e) {
         e.target.parentNode.parentNode.remove();
 
         deleteTodoFromStorage(e.target.parentNode.parentNode.textContent);
-        showAlert("success","Todo Deleted Successfully");
+        showAlert("success", "Todo Deleted Successfully");
     }
 }
 
@@ -30,14 +49,14 @@ function deleteTodoFromStorage(deleteTodo) {
     let todos = getTodosFromStorage();
 
 
-    
-    todos.forEach(function (todo,index) {
+
+    todos.forEach(function (todo, index) {
         if (todo === deleteTodo) {
-            todos.splice(index,1);
+            todos.splice(index, 1);
         }
     });
 
-    localStorage.setItem("todos",JSON.stringify(todos));
+    localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 
@@ -61,7 +80,7 @@ function addTodo(e) {
         addTodoToUI(newTodo);
         addTodoToStorage(newTodo);
     }
-  
+
     e.preventDefault();
 }
 
@@ -123,7 +142,7 @@ function addTodoToStorage(newTodo) {
 
     todos.push(newTodo);
 
-    localStorage.setItem("todos",JSON.stringify(todos));
+    localStorage.setItem("todos", JSON.stringify(todos));
 
 }
 
