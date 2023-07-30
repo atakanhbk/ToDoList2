@@ -11,44 +11,59 @@ const clearButton = document.querySelectorAll("#clear-todos");
 eventListeners()
 
 function eventListeners() {
-    form.addEventListener("submit",addTodo);
+    form.addEventListener("submit", addTodo);
 }
 
 function addTodo(e) {
     const newTodo = todoInput.value.trim();
 
-    addTodoToUI(newTodo);
+    if (newTodo === "") {
+        showAlert("danger", "Please Enter A Todo");
+    }
+    else {
+
+        showAlert("success", "Todo Entered Succesfully !!!");
+    }
 
     e.preventDefault();
 }
 
 function addTodoToUI(newTodo) {
-    
-//     <!-- <li class="list-group-item d-flex justify-content-between">
-//     Todo 1
-//     <a href = "#" class ="delete-item">
-//         <i class = "fa fa-remove"></i>
-//     </a>
 
-// </li>-->
+    //Create List Item
+    const listItem = document.createElement("li");
+    listItem.className = "list-group-item d-flex justify-content-between";
+    //Create a link
+    const link = document.createElement("a");
+    link.href = "#";
+    link.className = "delete-item";
+    link.innerHTML = '<i class = "fa fa-remove"></i>';
 
+    //Add Text Node
+    listItem.appendChild(document.createTextNode(newTodo));
+    listItem.appendChild(link);
 
-//Create List Item
-const listItem = document.createElement("li");
-listItem.className = "list-group-item d-flex justify-content-between";
-//Create a link
-const link = document.createElement("a");
-link.href = "#";
-link.className = "delete-item";
-link.innerHTML = '<i class = "fa fa-remove"></i>';
+    //Add List Item To Todo List
+    todoList.appendChild(listItem);
 
-//Add Text Node
-listItem.appendChild(document.createTextNode(newTodo));
-listItem.appendChild(link);
+    //Clear Input
+    todoInput.value = "";
+}
 
-//Add List Item To Todo List
-todoList.appendChild(listItem);
+function showAlert(type, message) {
+
  
-//Clear Input
-todoInput.value="";
+        const alert = document.createElement("div");
+        alert.className = `alert alert-${type}`;
+        alert.role = "alert";
+        alert.textContent = message;
+
+        firstCardBody.appendChild(alert);
+
+        //setTimeout
+
+        setTimeout(function () {
+            alert.remove();
+        },1000);
+
 }
