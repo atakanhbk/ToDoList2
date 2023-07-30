@@ -24,12 +24,13 @@ function filterTodos(e) {
   
     listItems.forEach(function (listItem) {
         const text = listItem.textContent.toLowerCase();
+        
         if (text.indexOf(filterValue) === -1) {
             console.log("Include");
             listItem.setAttribute("style","display : none !important");
         }
         else{
-            listItem.setAttribute("style","display :block !important");
+            listItem.setAttribute("style","display :block ");
         }
     })
 
