@@ -57,6 +57,7 @@ function filterTodos(e) {
 
 }
 
+
 function deleteTodo(e) {
     if (e.target.className === "fa fa-remove") {
         e.target.parentNode.parentNode.remove();
